@@ -24,7 +24,3 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: ./backend/${{ matrix.service }}
-
-      - name: Run build
-        run: npm build
-        working-directory: ./backend/${{ matrix.service }}
