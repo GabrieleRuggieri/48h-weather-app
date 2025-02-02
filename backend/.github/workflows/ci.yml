@@ -1,4 +1,4 @@
-name: CI Pipeline Backend
+name: CI Pipeline
 
 on:
   push:
@@ -21,39 +21,39 @@ jobs:
         with:
           node-version: '22'
 
-      # Debug: Mostra la directory corrente e l'elenco dei file nella radice del repository
+      # Debug: mostra la directory corrente e l'elenco della radice
       - name: Debug: List repository root
         run: |
           echo "Current directory: $(pwd)"
-          ls -la ${{ github.workspace }}
+          ls -la
 
-      # Debug: Elenca il contenuto della cartella backend
+      # Debug: elenca il contenuto della cartella backend
       - name: Debug: List backend directory
         run: |
           echo "Listing contents of 'backend':"
-          ls -la ${{ github.workspace }}/backend
+          ls -la backend
 
-      # Debug: Elenca i file della cartella del microservizio corrente
+      # Debug: elenca i file nella cartella del microservizio corrente
       - name: Debug: List files in backend/${{ matrix.service }}
         run: |
           echo "Listing files in backend/${{ matrix.service }}:"
-          ls -la ${{ github.workspace }}/backend/${{ matrix.service }}
+          ls -la backend/${{ matrix.service }}
 
-      # Install dependencies per il microservizio corrente
+      # Install dependencies nel microservizio corrente
       - name: Install dependencies for ${{ matrix.service }}
-        working-directory: ${{ github.workspace }}/backend/${{ matrix.service }}
         run: |
-          echo "Changing directory to: $(pwd)"
-          ls -la
+          cd backend/${{ matrix.service }} && \
+          echo "Current directory after cd: $(pwd)" && \
+          ls -la && \
           npm install
 
-      # Esegue la build se è definito lo script "build"
+      # Build project, se lo script "build" è definito
       - name: Build project for ${{ matrix.service }}
-        working-directory: ${{ github.workspace }}/backend/${{ matrix.service }}
         run: |
-          echo "Changing directory to: $(pwd)"
-          if npm run | grep -q "build"; then
-            npm run build
-          else
-            echo "No build script defined for ${{ matrix.service }}; skipping build step."
+          cd backend/${{ matrix.service }} && \
+          echo "Current directory after cd: $(pwd)" && \
+          if npm run | grep -q "build"; then \
+            npm run build; \
+          else \
+            echo "No build script defined for ${{ matrix.service }}; skipping build step."; \
           fi
