@@ -1,0 +1,35 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    # Esempio di microservizi: api-gateway, log-service, user-service, weather-service
+    strategy:
+      matrix:
+        service: [api-gateway, log-service, user-service, weather-service]
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          cd backend/${{ matrix.service }}
+          npm install
+
+      - name: Run build
+        run: |
+          cd backend/${{ matrix.service }}
+          npm build
