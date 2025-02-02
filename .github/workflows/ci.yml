@@ -10,7 +10,6 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    # Microservizi: api-gateway, log-service, user-service, weather-service
     strategy:
       matrix:
         service: [api-gateway, log-service, user-service, weather-service]
