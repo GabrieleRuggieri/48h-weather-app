@@ -22,12 +22,12 @@ jobs:
           node-version: '22'
 
       # Step di debug: mostra la directory corrente e la struttura della radice
-      - name: Debug: Current directory and list root
+      - name: Debug: List repository root
         run: |
           echo "Current directory: $(pwd)"
           ls -la
 
-      # Step di debug: elenca la cartella "backend" per verificare la struttura
+      # Step di debug: elenca la cartella "backend"
       - name: Debug: List backend directory
         run: |
           echo "Listing contents of 'backend':"
@@ -39,19 +39,25 @@ jobs:
           echo "Listing files in backend/${{ matrix.service }}:"
           ls -la backend/${{ matrix.service }}
 
-      # Install dependencies nel microservizio specifico
+      #############################
+      # Install dependencies step
+      #############################
       - name: Install dependencies for ${{ matrix.service }}
-        working-directory: backend/${{ matrix.service }}
         run: |
-          echo "Install step: Current directory: $(pwd)"
+          echo "Changing directory to backend/${{ matrix.service }}"
+          cd backend/${{ matrix.service }}
+          echo "Current directory: $(pwd)"
           ls -la
           npm install
 
-      # Build project se lo script è definito
+      #############################
+      # Build project step
+      #############################
       - name: Build project for ${{ matrix.service }}
-        working-directory: backend/${{ matrix.service }}
         run: |
-          echo "Build step: Current directory: $(pwd)"
+          echo "Changing directory to backend/${{ matrix.service }}"
+          cd backend/${{ matrix.service }}
+          echo "Current directory: $(pwd)"
           if npm run | grep -q "build"; then
             npm run build
           else
