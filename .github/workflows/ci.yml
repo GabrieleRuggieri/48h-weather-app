@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         service: [api-gateway, log-service, user-service, weather-service]
+        
     steps:
       - name: Checkout
         uses: actions/checkout@v3
