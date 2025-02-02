@@ -25,11 +25,8 @@ jobs:
       - name: List files in repository root
         run: ls -la
 
-      - name: List files in backend/${{ matrix.service }}
-        run: ls -la ./backend/${{ matrix.service }}
-
-      - name: Install dependencies for ${{ matrix.service }}
-        working-directory: ./backend/${{ matrix.service }}
+      - name: Install dependencies for api-gateway
+        working-directory: ./backend/api-gateway
         run: npm install
 
       - name: Build project for ${{ matrix.service }}
