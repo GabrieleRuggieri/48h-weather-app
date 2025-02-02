@@ -21,11 +21,15 @@ jobs:
         with:
           node-version: '22'
 
+      - name: List files in repository root
+        run: ls -la
+
+      - name: List files in ${{ matrix.service }}
+        run: ls -la ./${{ matrix.service }}
+
       - name: Install dependencies for ${{ matrix.service }}
         working-directory: ./${{ matrix.service }}
         run: npm install
-        # Se disponi di package-lock.json, puoi considerare:
-        # run: npm ci
 
       - name: Build project for ${{ matrix.service }}
         working-directory: ./${{ matrix.service }}
