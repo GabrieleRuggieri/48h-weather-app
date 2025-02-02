@@ -21,19 +21,20 @@ jobs:
         with:
           node-version: '22'
 
-      # Step di debug per verificare la struttura del repository
-      - name: Debug: List repository root
-        run: ls -la $GITHUB_WORKSPACE
+      # Debug: Visualizza i file nella radice per confermare la struttura
+      - name: List repository root
+        run: ls -la
 
-      - name: Debug: List files in backend/${{ matrix.service }}
-        run: ls -la $GITHUB_WORKSPACE/backend/${{ matrix.service }}
+      # Debug: Visualizza i file nella cartella del microservizio
+      - name: List files in backend/${{ matrix.service }}
+        run: ls -la backend/${{ matrix.service }}
 
       - name: Install dependencies for ${{ matrix.service }}
-        working-directory: ${{ github.workspace }}/backend/${{ matrix.service }}
+        working-directory: backend/${{ matrix.service }}
         run: npm install
 
       - name: Build project for ${{ matrix.service }}
-        working-directory: ${{ github.workspace }}/backend/${{ matrix.service }}
+        working-directory: backend/${{ matrix.service }}
         run: |
           if npm run | grep -q "build"; then
             npm run build
