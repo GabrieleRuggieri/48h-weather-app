@@ -9,7 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        service: [ "api-gateway", "user-service", "weather-service", "log-service" ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -19,11 +21,17 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install dependencies
+      - name: Install dependencies for ${{ matrix.service }}
+        working-directory: ./${{ matrix.service }}
         run: npm install
+        # Se disponi di package-lock.json, puoi considerare:
+        # run: npm ci
 
-      #- name: Run tests
-        #run: npm test
-
-      - name: Build project
-        #run: npm run build
+      - name: Build project for ${{ matrix.service }}
+        working-directory: ./${{ matrix.service }}
+        run: |
+          if npm run | grep -q "build"; then
+            npm run build
+          else
+            echo "No build script defined for ${{ matrix.service }}; skipping build step."
+          fi
