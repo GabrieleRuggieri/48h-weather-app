@@ -9,12 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         service: [api-gateway, log-service, user-service, weather-service]
-
-     steps:
+    steps:
       - name: Checkout
         uses: actions/checkout@v3
 
