@@ -10,26 +10,24 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    # Esempio di microservizi: api-gateway, log-service, user-service, weather-service
+    # Microservizi: api-gateway, log-service, user-service, weather-service
     strategy:
       matrix:
         service: [api-gateway, log-service, user-service, weather-service]
 
-    steps:
-      - name: Check out code
+     steps:
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: 16
 
       - name: Install dependencies
-        run: |
-          cd backend/${{ matrix.service }}
-          npm install
+        run: npm install
+        working-directory: ./backend/${{ matrix.service }}
 
-      - name: Run build
-        run: |
-          cd backend/${{ matrix.service }}
-          npm build
+      - name: Run tests
+        run: npm test
+        working-directory: ./backend/${{ matrix.service }}
