@@ -9,35 +9,93 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        service: [ "api-gateway", "user-service", "weather-service", "log-service" ]
     steps:
+      # Clona il repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Imposta Node.js versione 22
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '22'
 
-      # Debug: Visualizza i file nella radice per confermare la struttura
+      # Debug: Elenco dei file nella radice (opzionale, utile per verificare la struttura)
       - name: List repository root
         run: ls -la
 
-      # Debug: Visualizza i file nella cartella del microservizio
-      - name: List files in backend/${{ matrix.service }}
-        run: ls -la backend/${{ matrix.service }}
+      #############################
+      # Microservizio: api-gateway
+      #############################
+      - name: List files in backend/api-gateway
+        run: ls -la backend/api-gateway
 
-      - name: Install dependencies for ${{ matrix.service }}
-        working-directory: backend/${{ matrix.service }}
+      - name: Install dependencies for api-gateway
+        working-directory: backend/api-gateway
         run: npm install
 
-      - name: Build project for ${{ matrix.service }}
-        working-directory: backend/${{ matrix.service }}
+      - name: Build project for api-gateway
+        working-directory: backend/api-gateway
         run: |
           if npm run | grep -q "build"; then
             npm run build
           else
-            echo "No build script defined for ${{ matrix.service }}; skipping build step."
+            echo "No build script defined for api-gateway; skipping build step."
+          fi
+
+      #############################
+      # Microservizio: user-service
+      #############################
+      - name: List files in backend/user-service
+        run: ls -la backend/user-service
+
+      - name: Install dependencies for user-service
+        working-directory: backend/user-service
+        run: npm install
+
+      - name: Build project for user-service
+        working-directory: backend/user-service
+        run: |
+          if npm run | grep -q "build"; then
+            npm run build
+          else
+            echo "No build script defined for user-service; skipping build step."
+          fi
+
+      #############################
+      # Microservizio: weather-service
+      #############################
+      - name: List files in backend/weather-service
+        run: ls -la backend/weather-service
+
+      - name: Install dependencies for weather-service
+        working-directory: backend/weather-service
+        run: npm install
+
+      - name: Build project for weather-service
+        working-directory: backend/weather-service
+        run: |
+          if npm run | grep -q "build"; then
+            npm run build
+          else
+            echo "No build script defined for weather-service; skipping build step."
+          fi
+
+      #############################
+      # Microservizio: log-service
+      #############################
+      - name: List files in backend/log-service
+        run: ls -la backend/log-service
+
+      - name: Install dependencies for log-service
+        working-directory: backend/log-service
+        run: npm install
+
+      - name: Build project for log-service
+        working-directory: backend/log-service
+        run: |
+          if npm run | grep -q "build"; then
+            npm run build
+          else
+            echo "No build script defined for log-service; skipping build step."
           fi
