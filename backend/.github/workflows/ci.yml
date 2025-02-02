@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [ "api-gateway", "user-service", "weather-service", "log-service" ]
+        service: [ "api-gateway", "log-service", "user-service", "weather-service" ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -21,39 +21,22 @@ jobs:
         with:
           node-version: '22'
 
-      # Debug: mostra la directory corrente e l'elenco della radice
+      # Passo di debug per controllare la struttura del repository (opzionale)
       - name: Debug: List repository root
         run: |
-          echo "Current directory: $(pwd)"
+          echo "Repository structure:"
           ls -la
 
-      # Debug: elenca il contenuto della cartella backend
-      - name: Debug: List backend directory
+      - name: Debug: List contents of 48h-weather-app/backend
         run: |
-          echo "Listing contents of 'backend':"
-          ls -la backend
+          echo "Contents of 48h-weather-app/backend:"
+          ls -la 48h-weather-app/backend
 
-      # Debug: elenca i file nella cartella del microservizio corrente
-      - name: Debug: List files in backend/${{ matrix.service }}
-        run: |
-          echo "Listing files in backend/${{ matrix.service }}:"
-          ls -la backend/${{ matrix.service }}
-
-      # Install dependencies nel microservizio corrente
+      # Esegue npm install in ciascuna cartella specifica
       - name: Install dependencies for ${{ matrix.service }}
         run: |
-          cd backend/${{ matrix.service }} && \
-          echo "Current directory after cd: $(pwd)" && \
+          echo "Changing directory to 48h-weather-app/backend/${{ matrix.service }}"
+          cd 48h-weather-app/backend/${{ matrix.service }} && \
+          echo "Current directory: $(pwd)" && \
           ls -la && \
           npm install
-
-      # Build project, se lo script "build" è definito
-      - name: Build project for ${{ matrix.service }}
-        run: |
-          cd backend/${{ matrix.service }} && \
-          echo "Current directory after cd: $(pwd)" && \
-          if npm run | grep -q "build"; then \
-            npm run build; \
-          else \
-            echo "No build script defined for ${{ matrix.service }}; skipping build step."; \
-          fi
