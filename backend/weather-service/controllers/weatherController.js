@@ -6,7 +6,8 @@ exports.getWeather = async (req, res) => {
         return res.status(400).json({ message: 'Il parametro city è obbligatorio' });
     }
     // Imposta la tua API key di OpenWeatherMap come variabile d'ambiente oppure sostituisci 'your_api_key_here'
-    const apiKey = process.env.OPENWEATHER_API_KEY || 'your_api_key_here';
+    //todo mettere alla fine "your_api_key_here"
+    const apiKey = process.env.OPENWEATHER_API_KEY || 'b5a437227bcdd697898e478c70ba52a6';
     try {
         const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather`, {
             params: {
