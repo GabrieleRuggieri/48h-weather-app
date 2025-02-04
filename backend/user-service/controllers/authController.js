@@ -1,10 +1,12 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
+
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'password',
-    database: 'weather_app_db'
+  host: 'host.docker.internal',
+  port: 3306,
+  user: 'root',
+  password: 'admin',
+  database: 'weather_app_db'
 });
 
 db.connect(err => {
